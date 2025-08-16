@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RSC Status Dashboard</title>
+    <title>RSC Status</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -350,8 +350,8 @@
             <div class="logo-container">
                 <div class="logo">RSC</div>
                 <div>
-                    <h1 class="brand-title">Status Dashboard</h1>
-                    <p class="subtitle">Real-time system monitoring</p>
+                    <h1 class="brand-title">Status</h1>
+                    <p class="subtitle">Status Page Webview</p>
                 </div>
             </div>
             <div class="powered-by">
@@ -381,7 +381,7 @@
                 <div class="service-header">
                     <div class="service-icon"><i class="fas fa-server"></i></div>
                     <div class="service-info">
-                        <h3>Loading Services...</h3>
+                        <h3>Loading Services</h3>
                         <div class="service-desc">Please wait</div>
                     </div>
                 </div>
@@ -392,7 +392,7 @@
                 </div>
                 <div class="status-text">
                     <span class="status-label">
-                        <span class="loading-spinner"></span> Loading...
+                        <span class="loading-spinner"></span> Loading
                     </span>
                     <span class="status-time">--:--</span>
                 </div>
@@ -400,7 +400,7 @@
         </div>
 
         <div class="footer">
-            <p>&copy; 2025 RSC Systems. Advanced monitoring powered by Firebase.</p>
+            <p>&copy; 2025 RSC Corp. Powered by RSC.</p>
         </div>
     </div>
 
@@ -521,11 +521,11 @@
             if (highestPriority === 4) {
                 overallIndicator.className = 'overall-status-indicator major-outage';
                 overallText.textContent = 'Major Service Disruption';
-                overallStatus.querySelector('.overall-status-desc').textContent = 'One or more critical services are experiencing outages';
+                overallStatus.querySelector('.overall-status-desc').textContent = 'RSC is currently experiencing a major outage, please be patient.';
             } else if (highestPriority === 3) {
                 overallIndicator.className = 'overall-status-indicator minor-outage';
                 overallText.textContent = 'Minor Service Issues';
-                overallStatus.querySelector('.overall-status-desc').textContent = 'Some services are experiencing minor disruptions';
+                overallStatus.querySelector('.overall-status-desc').textContent = 'Some services may be disrupted, please be patient.';
             } else if (highestPriority === 2) {
                 overallIndicator.className = 'overall-status-indicator maintenance';
                 overallText.textContent = 'Maintenance in Progress';
@@ -533,7 +533,7 @@
             } else {
                 overallIndicator.className = 'overall-status-indicator operational';
                 overallText.textContent = 'All Systems Operational';
-                overallStatus.querySelector('.overall-status-desc').textContent = 'All services are running smoothly';
+                overallStatus.querySelector('.overall-status-desc').textContent = 'No outages reported';
             }
         }
 
@@ -641,7 +641,7 @@
             });
             
         } catch (error) {
-            console.error('Error initializing Firebase:', error);
+            console.error('Error initializing db:', error);
             showError('Failed to initialize database connection.');
         }
 
