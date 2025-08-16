@@ -630,8 +630,7 @@
             const blackoutServices = Object.values(servicesData).filter(data => data.status_black);
             
             if (blackoutServices.length > 0) {
-                document.body.classList.add('blackout-mode');
-                document.title = 'RSC - CRITICAL FAILURE';
+                window.location.href = "https://officialodbit.github.io/rscstatustemplate/error"
                 return true;
             } else {
                 document.body.classList.remove('blackout-mode');
