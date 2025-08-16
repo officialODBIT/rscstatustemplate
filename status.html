@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RSC Status</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -18,9 +19,10 @@
             color: #ffffff;
             min-height: 100vh;
             position: relative;
+            transition: all 1s ease;
         }
 
-        /* Animated background */
+        /* Normal animated background */
         body::before {
             content: '';
             position: fixed;
@@ -33,8 +35,133 @@
                 radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%);
             pointer-events: none;
             z-index: -1;
+            opacity: 1;
+            transition: opacity 1s ease;
         }
 
+        /* BLACKOUT MODE STYLES */
+        body.blackout-mode {
+            background: #000000;
+            font-family: 'Courier Prime', monospace;
+            overflow: hidden;
+        }
+
+        body.blackout-mode::before {
+            opacity: 0;
+        }
+
+        .blackout-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+            background: #000000;
+            position: relative;
+        }
+
+        body.blackout-mode .blackout-container {
+            display: flex;
+        }
+
+        body.blackout-mode .container {
+            display: none;
+        }
+
+        .blackout-content {
+            text-align: center;
+            max-width: 600px;
+            animation: fadeInSlow 3s ease-out;
+        }
+
+        .blackout-logo {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 2rem;
+            animation: flicker 4s infinite;
+        }
+
+        .blackout-title {
+            font-size: 1.5rem;
+            color: #666;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            animation: typewriter 2s steps(20, end) 1s both;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid #666;
+        }
+
+        .blackout-message {
+            font-size: 0.9rem;
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+            animation: typewriter 4s steps(100, end) 3s both;
+            white-space: pre-wrap;
+            overflow: hidden;
+            border-right: 2px solid #444;
+        }
+
+        .blackout-status {
+            font-size: 0.8rem;
+            color: #222;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: pulse-dark 3s ease-in-out infinite;
+        }
+
+        @keyframes fadeInSlow {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; border-right: transparent; }
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        @keyframes pulse-dark {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Static noise effect */
+        .blackout-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="1"/><feColorMatrix values="0 0 0 0 0.05 0 0 0 0 0.05 0 0 0 0 0.05 0 0 0 0.1 0"/></filter></defs><rect width="100%" height="100%" filter="url(%23noise)"/></svg>');
+            opacity: 0.1;
+            pointer-events: none;
+            animation: static-noise 0.1s infinite;
+        }
+
+        @keyframes static-noise {
+            0% { transform: translate(0, 0); }
+            10% { transform: translate(-1px, -1px); }
+            20% { transform: translate(1px, -1px); }
+            30% { transform: translate(-1px, 1px); }
+            40% { transform: translate(1px, 1px); }
+            50% { transform: translate(-1px, 0); }
+            60% { transform: translate(1px, 0); }
+            70% { transform: translate(0, -1px); }
+            80% { transform: translate(0, 1px); }
+            90% { transform: translate(-1px, -1px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* Normal mode styles */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -288,6 +415,10 @@
             --status-color: #4488ff;
         }
 
+        .blackout {
+            --status-color: #000000;
+        }
+
         .footer {
             text-align: center;
             padding: 2rem;
@@ -341,10 +472,33 @@
             .container {
                 padding: 1rem;
             }
+
+            .blackout-title {
+                font-size: 1.2rem;
+            }
+
+            .blackout-message {
+                font-size: 0.8rem;
+            }
+
+            .blackout-logo {
+                font-size: 3rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- BLACKOUT MODE CONTAINER -->
+    <div class="blackout-container">
+        <div class="blackout-content">
+            <div class="blackout-logo">RSC</div>
+            <div class="blackout-title">CRITICAL SYSTEM FAILURE</div>
+            <div class="blackout-message">There was a critical issue and RSC had to blackout. We are sorry for any interruptions we may have caused, we are currently fixing it.</div>
+            <div class="blackout-status">System Recovery in Progress...</div>
+        </div>
+    </div>
+
+    <!-- NORMAL MODE CONTAINER -->
     <div class="container">
         <div class="header">
             <div class="logo-container">
@@ -472,8 +626,29 @@
         let servicesData = {};
         let lastUpdateTime = new Date();
 
+        function checkForBlackout() {
+            const blackoutServices = Object.values(servicesData).filter(data => data.status_black);
+            
+            if (blackoutServices.length > 0) {
+                document.body.classList.add('blackout-mode');
+                document.title = 'RSC - CRITICAL FAILURE';
+                return true;
+            } else {
+                document.body.classList.remove('blackout-mode');
+                document.title = 'RSC Status';
+                return false;
+            }
+        }
+
         function getStatusInfo(statusData) {
-            if (statusData.status_operational) {
+            if (statusData.status_black) {
+                return { 
+                    class: 'blackout', 
+                    text: 'Critical Failure', 
+                    description: 'System blackout in effect',
+                    priority: 6
+                };
+            } else if (statusData.status_operational) {
                 return { 
                     class: 'operational', 
                     text: 'Operational', 
@@ -518,7 +693,11 @@
             const overallText = document.getElementById('overallText');
             const overallStatus = document.getElementById('overallStatus');
             
-            if (highestPriority === 4) {
+            if (highestPriority === 6) {
+                overallIndicator.className = 'overall-status-indicator blackout';
+                overallText.textContent = 'Critical System Failure';
+                overallStatus.querySelector('.overall-status-desc').textContent = 'RSC systems are experiencing critical failures';
+            } else if (highestPriority === 4) {
                 overallIndicator.className = 'overall-status-indicator major-outage';
                 overallText.textContent = 'Major Service Disruption';
                 overallStatus.querySelector('.overall-status-desc').textContent = 'RSC is currently experiencing a major outage, please be patient.';
@@ -630,9 +809,16 @@
                 });
                 
                 lastUpdateTime = new Date();
-                renderServices();
-                updateOverallStatus();
-                updateLastUpdatedTime();
+                
+                // Check for blackout mode first
+                const isBlackout = checkForBlackout();
+                
+                // Only render normal UI if not in blackout mode
+                if (!isBlackout) {
+                    renderServices();
+                    updateOverallStatus();
+                    updateLastUpdatedTime();
+                }
                 
                 console.log('Services updated:', Object.keys(servicesData).length, 'services loaded');
             }, (error) => {
@@ -645,8 +831,12 @@
             showError('Failed to initialize database connection.');
         }
 
-        // Update time every minute
-        setInterval(updateLastUpdatedTime, 60000);
+        // Update time every minute (only in normal mode)
+        setInterval(() => {
+            if (!document.body.classList.contains('blackout-mode')) {
+                updateLastUpdatedTime();
+            }
+        }, 60000);
     </script>
 </body>
 </html>
